@@ -22,6 +22,7 @@ package yarpc
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
 	"go.uber.org/yarpc/api/transport"
@@ -116,6 +117,7 @@ func (s *PhasedStarter) StartInbounds() error {
 	s.log.Info("starting inbounds")
 	wait := errorsync.ErrorWaiter{}
 	for _, i := range s.dispatcher.inbounds {
+		fmt.Printf("[jz] starting inbound %d: %+v\n", index, i)
 		wait.Submit(s.start(i))
 	}
 	if errs := wait.Wait(); len(errs) != 0 {
